@@ -2,13 +2,15 @@ import pytest
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
+service = Service(executable_path=ChromeDriverManager().install())
+driver = webdriver.Chrome(service=service)
 @pytest.fixture(scope="module")
 def driver():
     # Set up the WebDriver
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    driver = webdriver.Chrome(service=service)
     yield driver
     # Teardown code, called after the test module completes
     driver.quit()
