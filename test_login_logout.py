@@ -4,13 +4,19 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 
-service = Service(executable_path=ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service)
+
+# Configure Chrome options for headless browsing
+chrome_options = Options()
+chrome_options.add_argument("--headless")  # Enable headless mode
+chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration
+
 @pytest.fixture(scope="module")
 def driver():
     # Set up the WebDriver
-    driver = webdriver.Chrome(service=service)
+    # Initializer le Chrome webdriver
+    driver = webdriver.Chrome(options=chrome_options)
     yield driver
     # Teardown code, called after the test module completes
     driver.quit()
